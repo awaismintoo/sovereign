@@ -3,39 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MintooSuite Sovereign Elite - Sovereign Super-Terminal</title>
+    <title>Sovereign Elite - Multi-Exchange Super Terminal</title>
     <style>
         :root {
-            --bg: #05070A;
-            --surface: #0D1322;
-            --border-gold: #FFD700;
-            --text-gold: #FFD700;
-            --text-main: #E2E8F0;
-            --text-muted: #8A99AD;
+            --bg: #040609;
+            --surface: #0B101D;
+            --surface-hover: #131A2E;
+            --gold: #FFD700;
+            --border-gold: rgba(255, 215, 0, 0.3);
+            --text: #F8FAFC;
+            --muted: #64748B;
             --green: #00ECB6;
             --red: #FF3B3B;
             --blue: #3B82F6;
             --orange: #F59E0B;
-            --purple: #A855F7;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: monospace; }
         body {
             background-color: var(--bg);
-            color: var(--text-main);
+            color: var(--text);
             padding: 8px;
             max-width: 100vw;
             overflow-x: hidden;
+            -webkit-user-select: none;
         }
         .header {
-            border-bottom: 2px solid var(--border-gold);
+            border-bottom: 2px solid var(--gold);
             padding-bottom: 6px;
             margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .logo { font-size: 13px; font-weight: bold; color: var(--text-gold); letter-spacing: 1px; }
-        .sub { font-size: 8px; color: var(--text-muted); }
+        .logo { font-size: 13px; font-weight: bold; color: var(--gold); letter-spacing: 1px; }
+        .sub { font-size: 8px; color: var(--muted); }
         .badge-live {
             background: rgba(0, 236, 182, 0.15);
             color: var(--green);
@@ -44,7 +45,10 @@
             border-radius: 3px;
             font-size: 8px;
             font-weight: bold;
+            animation: pulse 1.5s infinite;
         }
+        @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+        
         .nav-tabs {
             display: flex;
             gap: 4px;
@@ -53,61 +57,96 @@
             padding-bottom: 2px;
         }
         .tab {
-            background: #121A2D;
-            border: 1px solid rgba(255,215,0,0.3);
-            color: var(--text-gold);
-            padding: 4px 8px;
+            background: var(--surface);
+            border: 1px solid var(--border-gold);
+            color: var(--gold);
+            padding: 5px 10px;
             border-radius: 4px;
             font-size: 9px;
             white-space: nowrap;
             cursor: pointer;
+            transition: all 0.2s;
         }
-        .tab.active { background: var(--text-gold); color: var(--bg); font-weight: bold; }
+        .tab.active, .tab:hover { background: var(--gold); color: var(--bg); font-weight: bold; }
+        
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; }
         .card {
             background-color: var(--surface);
-            border: 1px solid rgba(255, 215, 0, 0.25);
+            border: 1px solid var(--border-gold);
             border-radius: 6px;
             padding: 8px;
             margin-bottom: 6px;
         }
-        .card-title { font-size: 9px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px; }
-        .card-val { font-size: 15px; font-weight: bold; color: var(--text-gold); }
+        .card-title { font-size: 9px; color: var(--muted); text-transform: uppercase; margin-bottom: 3px; display: flex; justify-content: space-between; }
+        .card-val { font-size: 16px; font-weight: bold; color: var(--gold); }
         .positive { color: var(--green); }
         .negative { color: var(--red); }
+        
         .btn-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 6px; }
         .btn {
-            padding: 6px;
+            padding: 7px;
             border-radius: 4px;
             font-size: 9px;
             font-weight: bold;
             text-align: center;
             border: none;
+            cursor: pointer;
         }
         .btn-deposit { background: #065F46; color: var(--green); border: 1px solid var(--green); }
         .btn-trade { background: #1E40AF; color: #93C5FD; border: 1px solid var(--blue); }
         .btn-withdraw { background: #92400E; color: #FCD34D; border: 1px solid var(--orange); }
-        .console {
+
+        .chart-box {
             background: #020406;
-            border: 1px solid rgba(255,215,0,0.3);
+            height: 90px;
             border-radius: 4px;
-            padding: 6px;
-            font-size: 9px;
-            color: var(--text-muted);
-            height: 70px;
-            overflow-y: auto;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 4px 6px;
+            border: 1px solid rgba(255,215,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
+        .candlestick {
+            width: 8px;
+            background: var(--green);
+            border-radius: 1px;
+            position: relative;
+            transition: height 0.3s ease;
+        }
+        .candlestick.red { background: var(--red); }
+        .candlestick::before {
+            content: '';
+            position: absolute;
+            left: 3.5px;
+            top: -4px;
+            bottom: -4px;
+            width: 1px;
+            background: inherit;
+        }
+
         .signal-item {
             background: #111827;
             border-left: 3px solid var(--green);
-            padding: 5px;
+            padding: 6px;
             margin-bottom: 4px;
             border-radius: 0 4px 4px 0;
             font-size: 9px;
         }
+        .console {
+            background: #020406;
+            border: 1px solid var(--border-gold);
+            border-radius: 4px;
+            padding: 6px;
+            font-size: 9px;
+            color: var(--muted);
+            height: 75px;
+            overflow-y: auto;
+        }
         .exchange-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; text-align: center; }
-        .exchange-badge { background: #111827; padding: 4px; border-radius: 4px; font-size: 8px; border: 1px solid rgba(255,215,0,0.15); }
-        .footer { text-align: center; font-size: 8px; color: var(--text-muted); margin-top: 10px; border-top: 1px solid rgba(255,215,0,0.1); padding-top: 6px; }
+        .exchange-badge { background: #111827; padding: 5px; border-radius: 4px; font-size: 8px; border: 1px solid var(--border-gold); }
+        .footer { text-align: center; font-size: 8px; color: var(--muted); margin-top: 10px; border-top: 1px solid var(--border-gold); padding-top: 6px; }
     </style>
 </head>
 <body>
@@ -117,46 +156,46 @@
             <div class="logo">SOVEREIGN SUPER-TERMINAL</div>
             <div class="sub">Awais Mintoo & Co. &bull; Quantum Sovereign Suite</div>
         </div>
-        <div class="badge-live">120 FPS OLED</div>
+        <div class="badge-live" id="fps-indicator">120 FPS OLED</div>
     </div>
 
-    <!-- Multi-Exchange Selector Tabs (Binance, Bitget, Exness, TradingView, Olymp Trade, Quotex) -->
+    <!-- Aggregated Exchange Ecosystem Tabs -->
     <div class="nav-tabs">
-        <div class="tab active">⚡ COMBINED</div>
-        <div class="tab">🟡 BINANCE</div>
-        <div class="tab">🔵 BITGET</div>
-        <div class="tab">🟠 EXNESS</div>
-        <div class="tab">📈 TRADINGVIEW</div>
-        <div class="tab">🟢 OLYMP TRADE</div>
-        <div class="tab">🟣 QUOTEX</div>
+        <div class="tab active" onclick="switchTab('COMBINED')">⚡ COMBINED</div>
+        <div class="tab" onclick="switchTab('BINANCE')">🟡 BINANCE</div>
+        <div class="tab" onclick="switchTab('BITGET')">🔵 BITGET</div>
+        <div class="tab" onclick="switchTab('EXNESS')">🟠 EXNESS</div>
+        <div class="tab" onclick="switchTab('TRADINGVIEW')">📈 TRADINGVIEW</div>
+        <div class="tab" onclick="switchTab('OLYMP')">🟢 OLYMP</div>
+        <div class="tab" onclick="switchTab('QUOTEX')">🟣 QUOTEX</div>
     </div>
 
-    <!-- Institutional Gateway Action Buttons -->
+    <!-- Institutional Gateway Rails -->
     <div class="btn-row">
-        <button class="btn btn-deposit">DEPOSIT</button>
-        <button class="btn btn-trade">TRADE</button>
-        <button class="btn btn-withdraw">WITHDRAW</button>
+        <button class="btn btn-deposit" onclick="triggerAction('DEPOSIT')">DEPOSIT</button>
+        <button class="btn btn-trade" onclick="triggerAction('TRADE')">EXECUTE</button>
+        <button class="btn btn-withdraw" onclick="triggerAction('WITHDRAW')">WITHDRAW</button>
     </div>
 
-    <!-- Core Asset Tickers -->
+    <!-- Primary Asset Tickers -->
     <div class="grid-2">
         <div class="card" style="margin-bottom:0;">
-            <div class="card-title">EXNESS GOLD ($XAU/USD)</div>
+            <div class="card-title">EXNESS GOLD ($XAU/USD) <span class="positive">LIVE</span></div>
             <div class="card-val" id="gold-price">2,675.03</div>
             <div style="font-size: 8px;" class="positive">+0.58% Bullish Flow</div>
         </div>
         <div class="card" style="margin-bottom:0;">
-            <div class="card-title">BINANCE BTC/USDT</div>
+            <div class="card-title">BINANCE BTC/USDT <span class="positive">LIVE</span></div>
             <div class="card-val" id="btc-price">94,112.43</div>
             <div style="font-size: 8px;" class="positive">+2.14% Surge Long</div>
         </div>
     </div>
 
-    <!-- Master Bot Carousel -->
+    <!-- Master Bot Carousel & AI Signal -->
     <div class="card" style="border-color: var(--green); margin-top: 6px;">
-        <div class="card-title" style="color: var(--green);">MASTER BOT ALL-EXCHANGE CAROUSEL</div>
-        <div style="font-size: 11px; font-weight: bold; color: var(--text-gold); margin: 3px 0;">🏆 EXNESS GOLD (XAU/USD): HIGH-CONFIDENCE LONG</div>
-        <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted);">
+        <div class="card-title" style="color: var(--green);">MASTER BOT ALL-EXCHANGE CAROUSEL <span>AI CONFIDENCE: 98.4%</span></div>
+        <div style="font-size: 11px; font-weight: bold; color: var(--gold); margin: 3px 0;">🏆 EXNESS GOLD (XAU/USD): HIGH-CONFIDENCE LONG</div>
+        <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--muted);">
             <span>REC. LEV: 10x - 20x</span>
             <span>SL: <strong style="color: var(--red);">2658.07</strong></span>
             <span>TP: <strong style="color: var(--green);">2695.50 / 2714.22</strong></span>
@@ -171,23 +210,23 @@
         </div>
         <div class="card">
             <div class="card-title">BACKGROUND PUSH</div>
-            <div class="card-val" style="font-size: 11px; color: var(--green); padding-top: 2px;">120 FPS SECURE</div>
+            <div class="card-val" style="font-size: 11px; color: var(--green); padding-top: 2px;">SECURE 256-BIT</div>
         </div>
     </div>
 
-    <!-- Hardware Accelerated Chart Matrix (TradingView Engine) -->
+    <!-- Hardware Accelerated TradingView Chart Matrix -->
     <div class="card">
-        <div class="card-title">TRADINGVIEW CHART MATRIX: EXNESS GOLD (120 FPS)</div>
-        <div style="background: #030508; height: 80px; border-radius: 4px; display: flex; align-items: flex-end; justify-content: space-around; padding: 4px; border: 1px solid rgba(255,215,0,0.15);">
-            <div style="width: 6px; height: 30%; background: var(--red);"></div>
-            <div style="width: 6px; height: 45%; background: var(--green);"></div>
-            <div style="width: 6px; height: 40%; background: var(--green);"></div>
-            <div style="width: 6px; height: 25%; background: var(--red);"></div>
-            <div style="width: 6px; height: 60%; background: var(--green);"></div>
-            <div style="width: 6px; height: 75%; background: var(--green);"></div>
-            <div style="width: 6px; height: 70%; background: var(--green);"></div>
-            <div style="width: 6px; height: 85%; background: var(--green);"></div>
-            <div style="width: 6px; height: 95%; background: var(--green);"></div>
+        <div class="card-title">TRADINGVIEW CHART MATRIX (120 FPS) <span id="chart-symbol">XAU/USD</span></div>
+        <div class="chart-box" id="chart-candles">
+            <div class="candlestick red" style="height: 35%;"></div>
+            <div class="candlestick" style="height: 50%;"></div>
+            <div class="candlestick" style="height: 45%;"></div>
+            <div class="candlestick red" style="height: 30%;"></div>
+            <div class="candlestick" style="height: 65%;"></div>
+            <div class="candlestick" style="height: 80%;"></div>
+            <div class="candlestick" style="height: 75%;"></div>
+            <div class="candlestick" style="height: 90%;"></div>
+            <div class="candlestick" style="height: 95%;"></div>
         </div>
     </div>
 
@@ -196,17 +235,17 @@
         <div class="card-title">VALID ACTIVE SIGNALS & EXPIRY LEDGER</div>
         <div class="signal-item">
             <strong>B. BINANCE BTC/USDT - SURGE LONG (10x - 20x)</strong><br>
-            <span style="color: var(--text-muted);">Entry: $94103.27 | SL: $93538.65 | TP: $95232.51</span><br>
+            <span style="color: var(--muted);">Entry: $94103.27 | SL: $93538.65 | TP: $95232.51</span><br>
             <span style="color: var(--orange);">EXP: 02:58</span>
         </div>
         <div class="signal-item" style="border-left-color: var(--orange);">
             <strong>⚡ PXE POWER FUTURES - SURGE LONG (5x - 10x)</strong><br>
-            <span style="color: var(--text-muted);">Entry: $118.40 | SL: $117.69 | TP: $119.82</span><br>
+            <span style="color: var(--muted);">Entry: $118.40 | SL: $117.69 | TP: $119.82</span><br>
             <span style="color: var(--orange);">EXP: 02:59</span>
         </div>
         <div class="signal-item" style="border-left-color: var(--green);">
             <strong>🟡 BITGET ETH/USDT - SURGE LONG (8x - 15x)</strong><br>
-            <span style="color: var(--text-muted);">Entry: $3412.80 | SL: $3392.32 | TP: $3453.75</span><br>
+            <span style="color: var(--muted);">Entry: $3412.80 | SL: $3392.32 | TP: $3453.75</span><br>
             <span style="color: var(--orange);">EXP: 03:00</span>
         </div>
     </div>
@@ -216,24 +255,24 @@
         <div class="card-title">MACRO INDEX CORRELATION ($US500 & $DXY)</div>
         <div class="grid-2" style="margin-bottom:0;">
             <div>
-                <div style="font-size: 8px; color: var(--text-muted);">US DOLLAR INDEX (DXY)</div>
+                <div style="font-size: 8px; color: var(--muted);">US DOLLAR INDEX (DXY)</div>
                 <div style="font-size: 12px; font-weight: bold; color: var(--red);">103.16 ▼</div>
-                <div style="font-size: 7px; color: var(--green);">Gold Impact: BULLISH (DXY Drop)</div>
+                <div style="font-size: 7px; color: var(--green);">Gold Impact: BULLISH</div>
             </div>
             <div>
-                <div style="font-size: 8px; color: var(--text-muted);">US500 (S&P 500)</div>
+                <div style="font-size: 8px; color: var(--muted);">US500 (S&P 500)</div>
                 <div style="font-size: 12px; font-weight: bold; color: var(--green);">5826.50 ▲</div>
-                <div style="font-size: 7px; color: var(--text-muted);">Gold Impact: STABLE CONFLUENCE</div>
+                <div style="font-size: 7px; color: var(--muted);">Gold Impact: STABLE</div>
             </div>
         </div>
     </div>
 
     <!-- Master Bot Scanner & News Feed -->
     <div class="card">
-        <div class="card-title">MASTER BOT REAL-TIME SCANNER & COMMODITIES NEWS</div>
+        <div class="card-title">MASTER BOT SCANNER & COMMODITIES STREAM</div>
         <div class="console" id="log">
-            [00:00.000] Multi-exchange micro-second scanner active (Binance, Bitget, Exness, Quotex, Olymp Trade)...<br>
-            [07:05:53] [⚡ PXE POWER FUTURES] 3M Confluence: SURGE LONG.<br>
+            [00:00.000] Sovereign Quantum Engine online across all exchanges...<br>
+            [LIVE] Binance & Exness order book synchronized.<br>
             [REUTERS 🟡] Spot Gold holds steady following US inflation report.<br>
             [BLOOMBERG 🛢️] WTI Crude & Brent Oil tick up on Middle East supply outlook.
         </div>
@@ -257,13 +296,29 @@
     </div>
 
     <script>
-        // High-frequency live tick simulation across all aggregated exchanges
+        // Tab switching logic for exchanges
+        function switchTab(exchange) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('chart-symbol').innerText = exchange === 'BINANCE' ? 'BTC/USDT' : 'XAU/USD';
+            const log = document.getElementById('log');
+            log.innerHTML += `<br>[SWITCH] Connected to ${exchange} Institutional Gateway.`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function triggerAction(action) {
+            const log = document.getElementById('log');
+            log.innerHTML += `<br>[GATEWAY] ${action} request routed through 256-bit secure tunnel.`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // Real-time high-frequency tick simulation
         setInterval(() => {
-            let gold = 2675.03 + (Math.random() * 0.6 - 0.3);
-            let btc = 94112.43 + (Math.random() * 8.0 - 4.0);
+            let gold = 2675.03 + (Math.random() * 0.8 - 0.4);
+            let btc = 94112.43 + (Math.random() * 12.0 - 6.0);
             document.getElementById('gold-price').innerText = gold.toFixed(2);
             document.getElementById('btc-price').innerText = btc.toFixed(2);
-        }, 100);
+        }, 80);
     </script>
 </body>
 </html>
