@@ -12,23 +12,19 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
-          cache: 'gradle'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
 
       - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew
+        run: chmod +x gradlew || gradle wrapper
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease --stacktrace
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload Sovereign APK Package
         uses: actions/upload-artifact@v4
         with:
-          name: sovereign-release-apk
-          path: app/build/outputs/apk/release/app-release.apk
+          name: sovereign-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk

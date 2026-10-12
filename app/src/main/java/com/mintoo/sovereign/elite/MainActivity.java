@@ -1,8 +1,5 @@
 package com.mintoo.sovereign.elite;
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -20,28 +17,9 @@ public class MainActivity extends AppCompatActivity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-        settings.setDatabaseEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                view.loadDataWithBaseURL(null, getOfflineHTML(), "text/html", "UTF-8", null);
-            }
-        });
-        if (isNetworkAvailable(this)) {
-            webView.loadUrl("https://awaismintoo.github.io/sovereign/");
-        } else {
-            webView.loadDataWithBaseURL(null, getOfflineHTML(), "text/html", "UTF-8", null);
-        }
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadDataWithBaseURL(null, getOfflineHTML(), "text/html", "UTF-8", null);
         setContentView(webView);
-    }
-    private boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
-            return nc != null && (nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
-        }
-        return false;
     }
     private String getOfflineHTML() {
         return "<html lang='en'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'>" +
