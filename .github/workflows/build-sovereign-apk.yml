@@ -17,12 +17,12 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Gradle
+      - name: Setup Gradle 8.0
         uses: gradle/actions/setup-gradle@v3
         with:
           gradle-version: '8.0'
 
-      - name: Build APK
+      - name: Build Debug APK
         run: gradle assembleDebug --stacktrace
 
       - name: Upload APK Artifact
