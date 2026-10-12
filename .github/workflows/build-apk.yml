@@ -19,14 +19,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Generate Gradle Wrapper
-        run: gradle wrapper --gradle-version 8.1.1
-
-      - name: Build Release APK
-        run: ./gradlew assembleRelease --no-daemon
+      - name: Build APK with Pre-installed Android SDK
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
+        run: |
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          gradle wrapper --gradle-version 8.1.1
+          ./gradlew assembleRelease --no-daemon
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
