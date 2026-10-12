@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="MintooSuite Sovereign Elite"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
 </FrameLayout>
