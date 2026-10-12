@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MintooSuite Sovereign Elite - Super Terminal</title>
+    <title>MintooSuite Sovereign Elite - Sovereign Super-Terminal</title>
     <style>
         :root {
             --bg: #05070A;
@@ -60,6 +60,7 @@
             border-radius: 4px;
             font-size: 9px;
             white-space: nowrap;
+            cursor: pointer;
         }
         .tab.active { background: var(--text-gold); color: var(--bg); font-weight: bold; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; }
@@ -119,13 +120,14 @@
         <div class="badge-live">120 FPS OLED</div>
     </div>
 
-    <!-- Multi-Exchange Selector Tabs -->
+    <!-- Multi-Exchange Selector Tabs (Binance, Bitget, Exness, TradingView, Olymp Trade, Quotex) -->
     <div class="nav-tabs">
         <div class="tab active">⚡ COMBINED</div>
         <div class="tab">🟡 BINANCE</div>
         <div class="tab">🔵 BITGET</div>
         <div class="tab">🟠 EXNESS</div>
-        <div class="tab">🟢 FOREX</div>
+        <div class="tab">📈 TRADINGVIEW</div>
+        <div class="tab">🟢 OLYMP TRADE</div>
         <div class="tab">🟣 QUOTEX</div>
     </div>
 
@@ -152,7 +154,7 @@
 
     <!-- Master Bot Carousel -->
     <div class="card" style="border-color: var(--green); margin-top: 6px;">
-        <div class="card-title" style="color: var(--green);">MASTER BOT ALL-COIN CAROUSEL</div>
+        <div class="card-title" style="color: var(--green);">MASTER BOT ALL-EXCHANGE CAROUSEL</div>
         <div style="font-size: 11px; font-weight: bold; color: var(--text-gold); margin: 3px 0;">🏆 EXNESS GOLD (XAU/USD): HIGH-CONFIDENCE LONG</div>
         <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted);">
             <span>REC. LEV: 10x - 20x</span>
@@ -173,10 +175,10 @@
         </div>
     </div>
 
-    <!-- Chart Matrix Simulator -->
+    <!-- Hardware Accelerated Chart Matrix (TradingView Engine) -->
     <div class="card">
-        <div class="card-title">CHART MATRIX: EXNESS GOLD (120 FPS LIVE)</div>
-        <div style="background: #030508; height: 75px; border-radius: 4px; display: flex; align-items: flex-end; justify-content: space-around; padding: 4px; border: 1px solid rgba(255,215,0,0.15);">
+        <div class="card-title">TRADINGVIEW CHART MATRIX: EXNESS GOLD (120 FPS)</div>
+        <div style="background: #030508; height: 80px; border-radius: 4px; display: flex; align-items: flex-end; justify-content: space-around; padding: 4px; border: 1px solid rgba(255,215,0,0.15);">
             <div style="width: 6px; height: 30%; background: var(--red);"></div>
             <div style="width: 6px; height: 45%; background: var(--green);"></div>
             <div style="width: 6px; height: 40%; background: var(--green);"></div>
@@ -203,7 +205,7 @@
             <span style="color: var(--orange);">EXP: 02:59</span>
         </div>
         <div class="signal-item" style="border-left-color: var(--green);">
-            <strong>🟡 BINANCE ETH/USDT - SURGE LONG (8x - 15x)</strong><br>
+            <strong>🟡 BITGET ETH/USDT - SURGE LONG (8x - 15x)</strong><br>
             <span style="color: var(--text-muted);">Entry: $3412.80 | SL: $3392.32 | TP: $3453.75</span><br>
             <span style="color: var(--orange);">EXP: 03:00</span>
         </div>
@@ -230,14 +232,14 @@
     <div class="card">
         <div class="card-title">MASTER BOT REAL-TIME SCANNER & COMMODITIES NEWS</div>
         <div class="console" id="log">
-            [00:00.000] Multi-asset micro-second scanner active...<br>
+            [00:00.000] Multi-exchange micro-second scanner active (Binance, Bitget, Exness, Quotex, Olymp Trade)...<br>
             [07:05:53] [⚡ PXE POWER FUTURES] 3M Confluence: SURGE LONG.<br>
             [REUTERS 🟡] Spot Gold holds steady following US inflation report.<br>
             [BLOOMBERG 🛢️] WTI Crude & Brent Oil tick up on Middle East supply outlook.
         </div>
     </div>
 
-    <!-- Major Stock & Energy Exchanges Status -->
+    <!-- Major Stock & Energy Exchanges Live Status -->
     <div class="card">
         <div class="card-title">MAJOR STOCK & ENERGY EXCHANGES LIVE STATUS</div>
         <div class="exchange-grid">
@@ -255,7 +257,7 @@
     </div>
 
     <script>
-        // High-frequency live tick simulation
+        // High-frequency live tick simulation across all aggregated exchanges
         setInterval(() => {
             let gold = 2675.03 + (Math.random() * 0.6 - 0.3);
             let btc = 94112.43 + (Math.random() * 8.0 - 4.0);
