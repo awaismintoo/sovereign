@@ -13,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
     private ProgressBar progressBar;
-    private static final String TERMINAL_URL = "https://awaismintoo.github.io/sovereign/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,32 +28,12 @@ public class MainActivity extends AppCompatActivity {
         settings.setDatabaseEnabled(true);
         settings.setAllowFileAccess(true);
         settings.setAllowContentAccess(true);
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
-        settings.setBuiltInZoomControls(false);
 
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
-
-        webView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress < 100) {
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setProgress(newProgress);
-                } else {
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-        });
+        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
 
         if (savedInstanceState == null) {
-            webView.loadUrl(TERMINAL_URL);
+            webView.loadUrl("file:///android_asset/index.html");
         } else {
             webView.restoreState(savedInstanceState);
         }
