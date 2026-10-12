@@ -1,6 +1,4 @@
-plugins {
-    id 'com.android.application'
-}
+apply plugin: 'com.android.application'
 
 android {
     namespace 'com.mintoo.sovereign.elite'
@@ -11,7 +9,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 100
-        versionName "1.0.0-QuantumSovereign"
+        versionName "1.0.0-Sovereign"
     }
 
     buildTypes {
