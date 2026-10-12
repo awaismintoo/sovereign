@@ -14,11 +14,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        // Programmatically initialize WebView to avoid layout reference crashes
-        webView = new WebView(this);
-        setContentView(webView);
-
+        webView = findViewById(R.id.webView);
         webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
 
         WebSettings settings = webView.getSettings();
