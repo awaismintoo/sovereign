@@ -1,35 +1,41 @@
 plugins {
     id 'com.android.application'
 }
-
 android {
     namespace 'com.mintoo.sovereign.elite'
     compileSdk 34
-
     defaultConfig {
         applicationId "com.mintoo.sovereign.elite"
         minSdk 24
         targetSdk 34
-        versionCode 1
-        versionName "1.0.0-Elite"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        versionCode 100
+        versionName "1.0.0-QuantumSovereign"
     }
-
+    signingConfigs {
+        release {
+            storeFile file('sovereign-elite-keystore.jks')
+            storePassword 'SovereignElite2026!'
+            keyAlias 'SovereignKey'
+            keyPassword 'SovereignElite2026!'
+        }
+    }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.release
+        }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
-
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'org.json:json:20231013'
+    implementation 'androidx.webkit:webkit:1.8.0'
 }
