@@ -14,9 +14,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_activity); // Matches layout container
 
-        // Fallback programmatic layout creation if XML layout missing
+        // Programmatically initialize WebView to avoid layout reference crashes
         webView = new WebView(this);
         setContentView(webView);
 
