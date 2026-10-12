@@ -19,11 +19,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew
-
-      - name: Build Standalone Release APK
-        run: ./gradlew assembleRelease --no-daemon
+      - name: Install Stable Gradle 8.1.1 & Build APK
+        run: |
+          wget https://services.gradle.org/distributions/gradle-8.1.1-bin.zip
+          unzip -q gradle-8.1.1-bin.zip
+          export PATH=$PWD/gradle-8.1.1/bin:$PATH
+          gradle wrapper --gradle-version 8.1.1
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon
 
       - name: Upload Sovereign APK Package
         uses: actions/upload-artifact@v4
