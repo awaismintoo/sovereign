@@ -1,48 +1,76 @@
 package com.mintoo.sovereign.elite;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-    private WebView webView;
 
-    @SuppressLint("SetJavaScriptEnabled")
+    private TextView txtGold, txtBtc, txtConsole;
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Random random = new Random();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        webView = findViewById(R.id.webView);
-        webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
+        txtGold = findViewById(R.id.txtGold);
+        txtBtc = findViewById(R.id.txtBtc);
+        txtConsole = findViewById(R.id.txtConsole);
 
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
-        settings.setDatabaseEnabled(true);
-        settings.setAllowFileAccess(true);
-        settings.setAllowContentAccess(true);
-        settings.setLoadsImagesAutomatically(true);
-        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        // Interactive Gateway Button Listeners with Dialog Popups
+        findViewById(R.id.btnDeposit).setOnClickListener(v -> showModal("Deposit Gateway", "Secure 256-Bit Capital Deposit Vault active across Binance & Exness corridors."));
+        findViewById(R.id.btnExecute).setOnClickListener(v -> showModal("Order Execution", "Multi-exchange order routed successfully with zero latency slippage."));
+        findViewById(R.id.btnWithdraw).setOnClickListener(v -> showModal("Withdrawal Vault", "Instant liquidity payout requested. Funds secured under Sovereign Protection."));
 
-        webView.setWebViewClient(new WebViewClient());
+        // Exchange Dock Navigation Listeners
+        findViewById(R.id.btnUnified).setOnClickListener(v -> logAction("Switched to Unified Multi-Exchange Matrix"));
+        findViewById(R.id.btnBinance).setOnClickListener(v -> logAction("Connected to Binance Futures Orderbook"));
+        findViewById(R.id.btnBitget).setOnClickListener(v -> logAction("Connected to Bitget Copy-Trading Stream"));
+        findViewById(R.id.btnExness).setOnClickListener(v -> logAction("Connected to Exness Raw Spread Gold Terminal"));
+        findViewById(R.id.btnTV).setOnClickListener(v -> logAction("Loaded TradingView 120 FPS Chart Engine"));
+        findViewById(R.id.btnQuotex).setOnClickListener(v -> logAction("Connected to Quotex Binary Expiry Gateway"));
 
-        if (savedInstanceState == null) {
-            webView.loadUrl("file:///android_asset/index.html");
-        } else {
-            webView.restoreState(savedInstanceState);
-        }
+        // Start High-Frequency Ticker Simulation Loop
+        startTickerSimulation();
     }
 
-    @Override
-    public void onBackPressed() {
-        if (webView != null && webView.canGoBack()) {
-            webView.goBack();
-        } else {
-            super.onBackPressed();
-        }
+    private void showModal(String title, String message) {
+        new AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("CONFIRM", (dialog, which) -> {
+                Toast.makeText(this, "Action Executed Successfully", Toast.LENGTH_SHORT).show();
+                logAction(title + " confirmed and settled.");
+            })
+            .setNegativeButton("CANCEL", null)
+            .show();
+    }
+
+    private void logAction(String msg) {
+        String currentText = txtConsole.getText().toString();
+        txtConsole.setText(currentText + "\n[LOG] " + msg);
+    }
+
+    private void startTickerSimulation() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                double goldPrice = 2675.03 + (random.nextDouble() * 1.2 - 0.6);
+                double btcPrice = 94112.43 + (random.nextDouble() * 20.0 - 10.0);
+
+                txtGold.setText(String.format("%.2f", goldPrice));
+                txtBtc.setText(String.format("%.2f", btcPrice));
+
+                handler.postDelayed(this, 100);
+            }
+        }, 100);
     }
 }
