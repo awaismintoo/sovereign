@@ -17,11 +17,10 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x gradlew || gradle wrapper
-
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: |
+          chmod +x gradlew || gradle wrapper --gradle-version 8.0.2
+          ./gradlew assembleDebug --stacktrace
 
       - name: Upload Sovereign APK Package
         uses: actions/upload-artifact@v4

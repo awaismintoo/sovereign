@@ -10,10 +10,10 @@ public class SovereignDatabaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE market_cache (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT, price TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);");
-        db.execSQL("CREATE TABLE app_metadata (key TEXT PRIMARY KEY, value TEXT);");
-        db.execSQL("INSERT INTO app_metadata (key, value) VALUES ('patent_holder', 'Awais Rajpoot (awaisrajpoot2@yahoo.com)');");
-        db.execSQL("INSERT INTO app_metadata (key, value) VALUES ('address', 'Broadway Street, Greens Avenue, Park Road, Islamabad, Pakistan');");
+        db.execSQL("CREATE TABLE IF NOT EXISTS market_cache (id INTEGER PRIMARY KEY AUTOINCREMENT, symbol TEXT, price TEXT, timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);");
+        db.execSQL("CREATE TABLE IF NOT EXISTS app_metadata (key TEXT PRIMARY KEY, value TEXT);");
+        db.execSQL("INSERT OR REPLACE INTO app_metadata (key, value) VALUES ('patent_holder', 'Awais Rajpoot (awaisrajpoot2@yahoo.com)');");
+        db.execSQL("INSERT OR REPLACE INTO app_metadata (key, value) VALUES ('address', 'Broadway Street, Greens Avenue, Park Road, Islamabad, Pakistan');");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
