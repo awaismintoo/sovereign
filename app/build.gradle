@@ -4,14 +4,14 @@ plugins {
 
 android {
     namespace 'com.mintoo.sovereign.elite'
-    compileSdk 34
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.mintoo.sovereign.elite"
-        minSdk 26
-        targetSdk 34
-        versionCode 100
-        versionName "1.0.0-Sovereign"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
     }
 
     buildTypes {
@@ -20,7 +20,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -30,5 +29,4 @@ android {
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.webkit:webkit:1.8.0'
 }
