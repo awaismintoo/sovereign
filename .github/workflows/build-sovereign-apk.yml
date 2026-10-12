@@ -1,4 +1,4 @@
-name: Build Sovereign Elite APK
+name: Build MintooSuite Sovereign Elite Native APK
 
 on:
   push:
@@ -17,13 +17,13 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Build with Gradle
+      - name: Build with Gradle 8
         run: |
-          gradle wrapper --gradle-version 7.5
+          gradle wrapper --gradle-version 8.0
           chmod +x gradlew
           ./gradlew assembleDebug --stacktrace
 
-      - name: Upload APK
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: sovereign-debug-apk
