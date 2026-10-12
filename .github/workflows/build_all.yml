@@ -27,7 +27,7 @@ jobs:
           echo "Quantum Sovereign Suite - Windows x64/x86 Binary" > dist/windows/QuantumSovereign-Setup.exe
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Sovereign-Production-Releases
           path: dist/
