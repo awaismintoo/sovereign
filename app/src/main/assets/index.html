@@ -3,45 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MintooSuite Sovereign Elite</title>
+    <title>Quantum Sovereign Suite &bull; Elite Terminal</title>
     <style>
+        :root {
+            --bg-dark: #05070B;
+            --card-bg: #0D1322;
+            --gold: #FFD700;
+            --gold-glow: rgba(255, 215, 0, 0.25);
+            --text-main: #F1F5F9;
+            --text-muted: #94A3B8;
+            --green: #00FFC2;
+            --red: #FF3366;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
         body {
-            background-color: #0A0E17;
-            color: #FFD700;
-            font-family: monospace;
-            text-align: center;
-            padding: 40px 20px;
-            margin: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            padding: 10px;
+            max-width: 100vw;
+            overflow-x: hidden;
         }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            border: 2px solid #FFD700;
-            padding: 30px;
-            border-radius: 12px;
-            background-color: #121212;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        header {
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        h1 { font-size: 24px; margin-bottom: 10px; }
-        p { color: #A0A0A0; font-size: 14px; }
-        .live-badge {
-            background-color: #FFD700;
-            color: #0A0E17;
-            padding: 6px 12px;
+        .brand-title {
+            font-size: 14px;
             font-weight: bold;
-            display: inline-block;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+        .brand-sub {
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+        .live-indicator {
+            font-size: 9px;
+            background: rgba(0, 255, 194, 0.15);
+            color: var(--green);
+            padding: 3px 6px;
+            border-radius: 3px;
+            border: 1px solid var(--green);
+            font-weight: bold;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--gold-glow);
+            border-radius: 6px;
+            padding: 8px;
+        }
+        .card-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .card-price {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--gold);
+            margin-top: 2px;
+        }
+        .card-change {
+            font-size: 9px;
+            margin-top: 1px;
+        }
+        .positive { color: var(--green); }
+        .negative { color: var(--red); }
+        .full-card { grid-column: span 2; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4px;
+        }
+        th, td {
+            padding: 6px 4px;
+            text-align: left;
+            font-size: 11px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+        }
+        th { color: var(--text-muted); font-weight: normal; font-size: 10px; }
+        .console-box {
+            background: #020408;
+            border: 1px solid rgba(255, 215, 0, 0.2);
             border-radius: 4px;
-            margin-top: 20px;
+            padding: 6px;
+            font-size: 10px;
+            color: var(--text-muted);
+            height: 75px;
+            overflow-y: auto;
+            margin-top: 6px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 9px;
+            color: var(--text-muted);
+            margin-top: 10px;
+            border-top: 1px solid rgba(255,215,0,0.1);
+            padding-top: 6px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>MINTOOSUITE SOVEREIGN ELITE</h1>
-        <p>Institutional Quantum Sovereign Terminal</p>
-        <hr style="border-color: #333; margin: 20px 0;">
-        <div id="status">Status: SECURE OFFLINE VAULT ACTIVE</div>
-        <div class="live-badge">SYSTEM OPERATIONAL</div>
+
+    <header>
+        <div>
+            <div class="brand-title">QUANTUM SOVEREIGN ELITE</div>
+            <div class="brand-sub">Awais Mintoo & Co. &bull; Islamabad</div>
+        </div>
+        <div class="live-indicator" id="ping">MS-TICK: ACTIVE</div>
+    </header>
+
+    <div class="grid">
+        <div class="card">
+            <div class="card-label">XAU/USD (Gold)</div>
+            <div class="card-price" id="p-gold">2,738.45</div>
+            <div class="card-change positive" id="c-gold">+0.52%</div>
+        </div>
+        <div class="card">
+            <div class="card-label">BTC/USDT</div>
+            <div class="card-price" id="p-btc">68,410.00</div>
+            <div class="card-change positive" id="c-btc">+1.66%</div>
+        </div>
     </div>
+
+    <div class="card full-card" style="margin-bottom: 8px;">
+        <div class="card-label">Institutional Asset Matrix</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pair / Asset</th>
+                    <th>Bid Price</th>
+                    <th>Ask Price</th>
+                    <th>Micro-Tick</th>
+                </tr>
+            </thead>
+            <tbody id="asset-table">
+                <tr>
+                    <td><strong>EUR/USD</strong></td>
+                    <td id="eur-bid">1.09241</td>
+                    <td id="eur-ask">1.09253</td>
+                    <td class="positive">+0.12 pts</td>
+                </tr>
+                <tr>
+                    <td><strong>ETH/USDT</strong></td>
+                    <td id="eth-bid">2,684.10</td>
+                    <td id="eth-ask">2,684.55</td>
+                    <td class="positive">+4.20 pts</td>
+                </tr>
+                <tr>
+                    <td><strong>SOL/USDT</strong></td>
+                    <td id="sol-bid">152.80</td>
+                    <td id="sol-ask">152.95</td>
+                    <td class="negative">-0.45 pts</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card full-card">
+        <div class="card-label">Execution Engine & Microsecond Log</div>
+        <div class="console-box" id="console">
+            [00:00.001] Native WebView secure vault initialized.<br>
+            [00:00.045] High-frequency microsecond ticker stream online.<br>
+            [00:00.120] Exness & Crypto bridge locked. Ready for execution.
+        </div>
+    </div>
+
+    <div class="footer">
+        Awais Mintoo & Co. &bull; Quantum Sovereign Suite &bull; Secure Native Build
+    </div>
+
+    <script>
+        // High-frequency millisecond price simulation engine
+        let baseGold = 2738.45;
+        let baseBtc = 68410.00;
+        let baseEur = 1.09241;
+        let baseEth = 2684.10;
+
+        function updateTicks() {
+            // Millisecond micro-fluctuations
+            let goldDelta = (Math.random() * 0.6 - 0.28);
+            let btcDelta = (Math.random() * 12.0 - 5.8);
+            let eurDelta = (Math.random() * 0.00010 - 0.00004);
+            let ethDelta = (Math.random() * 1.5 - 0.7);
+
+            baseGold += goldDelta;
+            baseBtc += btcDelta;
+            baseEur += eurDelta;
+            baseEth += ethDelta;
+
+            document.getElementById('p-gold').innerText = baseGold.toFixed(2);
+            document.getElementById('p-btc').innerText = baseBtc.toFixed(2);
+            document.getElementById('eur-bid').innerText = baseEur.toFixed(5);
+            document.getElementById('eur-ask').innerText = (baseEur + 0.00012).toFixed(5);
+            document.getElementById('eth-bid').innerText = baseEth.toFixed(2);
+            document.getElementById('eth-ask').innerText = (baseEth + 0.45).toFixed(2);
+
+            // Update timestamp ping
+            const d = new Date();
+            const ms = String(d.getMilliseconds()).padStart(3, '0');
+            document.getElementById('ping').innerText = `TICK: ${d.toLocaleTimeString()}.${ms}`;
+        }
+
+        // Run updates every 150 milliseconds for lightning-fast microsecond feel
+        setInterval(updateTicks, 150);
+    </script>
 </body>
 </html>
