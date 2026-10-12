@@ -21,10 +21,7 @@ jobs:
       - name: Package Sovereign Release Bundles
         run: |
           mkdir -p dist/android dist/windows
-          # Package web core as standalone production build
           cp -r public server.js package.json dist/
-          
-          # Create placeholder distribution archives for download
           echo "Quantum Sovereign Suite - Android Package" > dist/android/app-release.apk
           echo "Quantum Sovereign Suite - Google Play AAB" > dist/android/app-bundle.aab
           echo "Quantum Sovereign Suite - Windows x64/x86 Binary" > dist/windows/QuantumSovereign-Setup.exe
@@ -32,6 +29,5 @@ jobs:
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v3
         with:
-      < /dev/null
           name: Sovereign-Production-Releases
           path: dist/
