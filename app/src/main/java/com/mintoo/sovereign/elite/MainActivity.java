@@ -1,7 +1,11 @@
 package com.mintoo.sovereign.elite;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,10 +18,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Full-screen dark mode terminal window
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setStatusBarColor(Color.parseColor("#05070A"));
+
         setContentView(R.layout.activity_main);
 
         webView = findViewById(R.id.webView);
         webView.setLayerType(WebView.LAYER_TYPE_HARDWARE, null);
+        webView.setBackgroundColor(Color.parseColor("#05070A"));
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
